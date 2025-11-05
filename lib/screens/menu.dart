@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:football_shop/widgets/left_drawer.dart';
 
 class MyHomePage extends StatelessWidget {
     MyHomePage({super.key}); //sudah ada pada code sebelumnya
@@ -29,6 +30,10 @@ class MyHomePage extends StatelessWidget {
         // Warna latar belakang AppBar diambil dari skema warna tema aplikasi.
         backgroundColor: Theme.of(context).colorScheme.primary,
       ),
+
+      // drawer
+      drawer: LeftDrawer(),
+      
       // Body halaman dengan padding di sekelilingnya.
       body: Padding(
         padding: const EdgeInsets.all(16.0),
