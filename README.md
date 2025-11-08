@@ -35,11 +35,10 @@
 
 Tugas 8
 1. Jelaskan perbedaan antara Navigator.push() dan Navigator. pushReplacement() pada Flutter. Dalam kasus apa sebaiknya masing-masing digunakan pada aplikasi Football Shop kamu?
-  Perbedaan Navigator.push() dan Navigator.pushReplacement():
-  push() akan menambahkan route baru diatas route yang sudah ada sebelumnya pada atas stack, sedangkan pushReplacement() menggantikan rute yang sudah ada pada atas stack dengan route baru tersebut.
-
-  Navigator.push() digunakan ketika ingin menampilkan halaman baru, dan dapat kembali ke halaman sebelumnya dengan tombol back. Contoh: Navigasi dari halaman All Products dan halaman detail product.
-  Navigator.pushReplacement() digunakan ketika ingin menampilkan halaman baru, tapi user tidak dapat ke halaman sebelumnya. Contoh: User berhasil login, pindah ke halaman utama tanpa bisa kembali ke halaman login.
+  - Perbedaan Navigator.push() dan Navigator.pushReplacement():
+  push() akan menambahkan route baru diatas route yang sudah ada sebelumnya pada atas stack, sedangkan pushReplacement() menggantikan rute yang sudah ada pada atas stack dengan route baru tersebut. 
+  - Navigator.push() digunakan ketika ingin menampilkan halaman baru, dan dapat kembali ke halaman sebelumnya dengan tombol back. Contoh: Navigasi dari halaman All Products dan halaman detail product.
+  - Navigator.pushReplacement() digunakan ketika ingin menampilkan halaman baru, tapi user tidak dapat ke halaman sebelumnya. Contoh: User berhasil login, pindah ke halaman utama tanpa bisa kembali ke halaman login.
 
 2. Bagaimana kamu memanfaatkan hierarchy widget seperti Scaffold, AppBar, dan Drawer untuk membangun struktur halaman yang konsisten di seluruh aplikasi?
   ```dart
@@ -54,9 +53,9 @@ Tugas 8
   Supaya hierarcy widget tersebut dapat dimanfaatkan untuk struktur halaman yang konsisten bisa dibuat class baru yang meng-*extends* statelesswidget, dan di dalamnya terdapat Widget Build dengan kode di atas yang nantinya disesuaikan dengan aplikasi yang dibuat.
 
 3. Dalam konteks desain antarmuka, apa kelebihan menggunakan layout widget seperti Padding, SingleChildScrollView, dan ListView saat menampilkan elemen-elemen form? Berikan contoh penggunaannya dari aplikasi kamu.
-  1) Padding digunakan untuk memberi jarak antar elemen agar tampilan yang dihasilkan berjarak, tidak terlalu rapat, dan nyaman untuk dilihat. Contohnya: pembuatan tiap form, seperti nama, harga, deskripsis, untuk produk di productlist_form.dart
-  2) SingleChildScrollView membuat seluruh isi halaman dapat di-*scroll* secara vertikal ataupun horizontal, widget ini membantu untuk terhindar dari overflow saat form terlalu panjang. Contohnya: Di productlist_form, SingleChildScrollView sebagai parent dari column yang berisi padding-padding nama, harga, dan lain-lain.
-  3) ListView merupakan widget yang mirip gabungan SingleChildScrollView dan Column, tapi lebih efisien dan fleksibel, terutama saat harus menambilkan banyak elemen yang bisa dinamis, widget ini mendukung scroll otomatis tanpa perlu widget baru. Contohnya: Pembuatan drawer seperti di leftdrawer.dart
+  - Padding digunakan untuk memberi jarak antar elemen agar tampilan yang dihasilkan berjarak, tidak terlalu rapat, dan nyaman untuk dilihat. Contohnya: pembuatan tiap form, seperti nama, harga, deskripsis, untuk produk di productlist_form.dart
+  - SingleChildScrollView membuat seluruh isi halaman dapat di-*scroll* secara vertikal ataupun horizontal, widget ini membantu untuk terhindar dari overflow saat form terlalu panjang. Contohnya: Di productlist_form, SingleChildScrollView sebagai parent dari column yang berisi padding-padding nama, harga, dan lain-lain.
+  - ListView merupakan widget yang mirip gabungan SingleChildScrollView dan Column, tapi lebih efisien dan fleksibel, terutama saat harus menambilkan banyak elemen yang bisa dinamis, widget ini mendukung scroll otomatis tanpa perlu widget baru. Contohnya: Pembuatan drawer seperti di leftdrawer.dart
 
 4. Bagaimana kamu menyesuaikan warna tema agar aplikasi Football Shop memiliki identitas visual yang konsisten dengan brand toko?
   Saya menggunakan warna biru sebagai warna tema utama Football Shop yang memberi kesan modern dan nyaman sehingga pengguna merasa yakin saat berbelanja di aplikasi ini. Hal itu saya sesuaikan dengan membuat palet warna aplikasi secara keseluruhan dan menetapkan tema secara konsisten.
