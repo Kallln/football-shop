@@ -105,7 +105,7 @@ class _ProductFormPageState extends State<ProductFormPage> {
                         return "Harga produk tidak boleh kosong!";
                       }
                       if (int.tryParse(value) == null) {
-                        return "Harga produk tidak boleh kalimat";
+                        return "Harga produk tidak valid";
                       }
                       if (int.parse(value) <= 0) {
                         return "Harga produk tidak boleh 0 ataupun kurang dari 0";
@@ -185,6 +185,9 @@ class _ProductFormPageState extends State<ProductFormPage> {
                       });
                     },
                     validator: (String? value) {
+                      if (value == null || value.isEmpty) {
+                        return "Deskripsi produk tidak boleh kosong!";
+                      }
                       if (!isUrl(value!) && value.isNotEmpty) {
                         return "URL Thumbnail bukan URL Valid";
                       }
