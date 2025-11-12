@@ -186,7 +186,7 @@ class _ProductFormPageState extends State<ProductFormPage> {
                     },
                     validator: (String? value) {
                       if (value == null || value.isEmpty) {
-                        return "Deskripsi produk tidak boleh kosong!";
+                        return "URL Thumbnail tidak boleh kosong!";
                       }
                       if (!isUrl(value!) && value.isNotEmpty) {
                         return "URL Thumbnail bukan URL Valid";
