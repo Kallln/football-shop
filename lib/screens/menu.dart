@@ -205,11 +205,12 @@ class ItemCard extends StatelessWidget {
                       content: Text("$message See you again, $uname."),
                     ),
                   );
-                  Navigator.pushReplacement(
-                    context,
+                  // Clear entire navigation stack so back button won't appear
+                  Navigator.of(context).pushAndRemoveUntil(
                     MaterialPageRoute(
                       builder: (context) => const LoginPage(),
                     ),
+                    (route) => false,
                   );
                 } else {
                   ScaffoldMessenger.of(context).showSnackBar(

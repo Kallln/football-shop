@@ -15,12 +15,12 @@ class LeftDrawer extends StatelessWidget {
           const DrawerHeader(
             // TODO: Bagian drawer header
             decoration: BoxDecoration(
-            color: Colors.blue,
+            color: Color.fromARGB(255, 21, 104, 172),
           ),
           child: Column(
             children: [
               Text(
-                'Football Shop',
+                'We\'Ballin Shop',
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   fontSize: 30,
