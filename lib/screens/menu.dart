@@ -1,6 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:football_shop/screens/productlist_form.dart';
 import 'package:football_shop/widgets/left_drawer.dart';
+import 'package:football_shop/screens/product_entry_list.dart';
+import 'package:football_shop/screens/login.dart';
+import 'package:pbp_django_auth/pbp_django_auth.dart';
+import 'package:provider/provider.dart';
+
 
 class MyHomePage extends StatelessWidget {
     MyHomePage({super.key}); //sudah ada pada code sebelumnya
@@ -13,6 +18,7 @@ class MyHomePage extends StatelessWidget {
     ItemHomepage("All Products", Icons.store, Colors.lightBlue),
     ItemHomepage("My Produts", Icons.person, Colors.lightGreen),
     ItemHomepage("Create Product", Icons.add, Colors.red),
+    ItemHomepage("Logout", Icons.logout, Colors.grey),
     ];
 
     @override
@@ -150,6 +156,7 @@ class ItemCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final request = context.watch<CookieRequest>();
     return Material(
       // Menentukan warna latar belakang dari tema aplikasi.
       color: item.color,
@@ -170,6 +177,56 @@ class ItemCard extends StatelessWidget {
               context, 
               MaterialPageRoute(builder: (context) => ProductFormPage()),
             );
+          } else if (item.name == "All Products") { 
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => const ProductEntryListPage()
+                  ),
+              );
+          } else if (item.name == "My Produts") {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => const ProductEntryListPage(showOnlyMine: true)
+                  ),
+              );
+          } else if (item.name == "Logout") {
+            () async {
+              final response = await request.logout(
+                "http://localhost:8000/auth/logout/",
+              );
+              final String message = response["message"] ?? "Logged out";
+              if (context.mounted) {
+                if (response['status'] == true) {
+                  final String uname = response["username"] ?? "";
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      content: Text("$message See you again, $uname."),
+                    ),
+                  );
+                  Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const LoginPage(),
+                    ),
+                  );
+                } else {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      content: Text(message),
+                    ),
+                  );
+                }
+              }
+            }();
+          } else {
+            Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => const ProductEntryListPage()
+                  ),
+              );
           }
         },
         // Container untuk menyimpan Icon dan Text

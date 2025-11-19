@@ -59,3 +59,52 @@ Tugas 8
 
 4. Bagaimana kamu menyesuaikan warna tema agar aplikasi Football Shop memiliki identitas visual yang konsisten dengan brand toko?
   Saya menggunakan warna biru sebagai warna tema utama Football Shop yang memberi kesan modern dan nyaman sehingga pengguna merasa yakin saat berbelanja di aplikasi ini. Hal itu saya sesuaikan dengan membuat palet warna aplikasi secara keseluruhan dan menetapkan tema secara konsisten.
+
+Tugas 9
+1. Jelaskan mengapa kita perlu membuat model Dart saat mengambil/mengirim data JSON? Apa konsekuensinya jika langsung memetakan Map<String, dynamic> tanpa model (terkait validasi tipe, null-safety, maintainability)?
+  Model Dart vs Map<String, dynamic>:
+  Validasi tipe: Model memberi field bertipe kuat (int, String, bool), sehingga kesalahan tipe terdeteksi saat compile, bukan baru runtime.
+  Null-safety: Field bisa ditandai nullable/non-nullable, memaksa penanganan null yang eksplisit.
+  Maintainability: Parsing terpusat di fromJson/toJson, refactor lebih aman, autocompletion IDE berfungsi. Langsung memakai Map<String, dynamic> raw membuat raw string-key rentan typo, logic parsing berulang, dan bug runti
+
+2. Apa fungsi package http dan CookieRequest dalam tugas ini? Jelaskan perbedaan peran http vs CookieRequest.
+  http: low-level client untuk GET/POST tanpa manajemen sesi; cocok untuk endpoint publik tanpa cookie/CSRF.
+  CookieRequest (pbp_django_auth): mengelola session cookie, CSRF token, helper login, logout, postJson, dan menyimpan jsonData user. Cocok untuk endpoint terotentikasi Django.
+  Di proyek ini: login/register/CRUD → CookieRequest; akses publik sederhana bisa pakai http bila perlu.
+
+3. Jelaskan mengapa instance CookieRequest perlu untuk dibagikan ke semua komponen di aplikasi Flutter.
+  Single source of truth untuk sesi: semua request membawa cookie/CSRF yang sama.
+  Akses mudah via Provider, tidak perlu oper-parameter manual.
+  Menghindari masalah multi-sesi (mis. satu widget logout, lainnya masih mengira login).
+  10.0.2.2 di ALLOWED_HOSTS: alamat loopback khusus Android emulator ke host; tanpa ini Django menolak Host header.
+  CORS + CSRF/SameSite: izinkan origin Flutter (web/dev server) dan atur CSRF Trusted Origins; salah konfigurasi → 403 CSRF/blocked cookies.
+  Android permission internet: tanpa android.permission.INTERNET, request gagal (socket/network error).
+  Jika salah: request gagal (CORS/CSRF/host invalid), cookie tidak terset, login tidak bertahan.
+
+4. Jelaskan konfigurasi konektivitas yang diperlukan agar Flutter dapat berkomunikasi dengan Django. Mengapa kita perlu menambahkan 10.0.2.2 pada ALLOWED_HOSTS, mengaktifkan CORS dan pengaturan SameSite/cookie, dan menambahkan izin akses internet di Android? Apa yang akan terjadi jika konfigurasi tersebut tidak dilakukan dengan benar?
+  10.0.2.2 di ALLOWED_HOSTS: alamat loopback khusus Android emulator ke host; tanpa ini Django menolak Host header.
+  CORS + CSRF/SameSite: izinkan origin Flutter (web/dev server) dan atur CSRF Trusted Origins; salah konfigurasi → 403 CSRF/blocked cookies.
+  Android permission internet: tanpa android.permission.INTERNET, request gagal (socket/network error).
+  Jika salah: request gagal (CORS/CSRF/host invalid), cookie tidak terset, login tidak bertahan.
+
+5. Jelaskan mekanisme pengiriman data mulai dari input hingga dapat ditampilkan pada Flutter.
+  Flutter form → validasi → kirim via request.postJson ke Django.
+  Django view validasi & simpan model → balikan JSON.
+  Flutter menerima JSON → parse ke model ProductEntry.fromJson.
+  UI FutureBuilder → ListView.builder render kartu → tap → ProductDetailPage.
+
+6. Jelaskan mekanisme autentikasi dari login, register, hingga logout. Mulai dari input data akun pada Flutter ke Django hingga selesainya proses autentikasi oleh Django dan tampilnya menu pada Flutter.
+  Register: kirim username/password1/password2 ke /auth/register/ → Django buat user (validasi password) → Flutter beri snackbar dan navigasi ke login.
+  Login: request.login(...) → Django set session (cookie sessionid/CSRF) → CookieRequest simpan cookie + jsonData (username, dsb) → Flutter navigasi ke MyHomePage.
+  Authenticated requests: CookieRequest otomatis melampirkan cookie & CSRF saat postJson.
+  Logout: request.logout(...) → session invalidated → Flutter kembali ke LoginPage.
+
+7. Jelaskan bagaimana cara kamu mengimplementasikan checklist di atas secara step-by-step! (bukan hanya sekadar mengikuti tutorial).
+  1) Setup Provider<CookieRequest> di main.dart untuk berbagi sesi.
+  2) Bangun halaman LoginPage dan RegisterPage (form, validasi dasar, panggil endpoint).
+  3) Definisikan model ProductEntry (+ userId, userUsername) untuk parsing JSON.
+  4) Bangun ProductEntryListPage (fetch via CookieRequest.get, render ProductEntryCard).
+  5) ProductEntryCard: tampilkan thumbnail, name, price, category, featured, preview description, dan label owner.
+  6) ProductDetailPage: tampilkan semua informasi penting (name, price, category, createdAt, description, featured, owner).
+  7) Tambahkan tile “Logout” di menu utama yang memanggil request.logout dan kembali ke LoginPage.
+  8) Tambah “My Produts” → routing dengan filter “hanya milikku” (berdasar user_username; fallback user_id bila perlu).

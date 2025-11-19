@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:football_shop/screens/menu.dart';
 import 'package:football_shop/screens/productlist_form.dart';
+import 'package:football_shop/screens/product_entry_list.dart';
 
 
 class LeftDrawer extends StatelessWidget {
@@ -40,7 +41,8 @@ class LeftDrawer extends StatelessWidget {
             ],
           ),
           ),
-          // TODO: Bagian routing
+
+          // TODO: Bagian routing, Home
           ListTile(
             leading: const Icon(Icons.home_outlined),
             title: const Text('Home'),
@@ -53,6 +55,8 @@ class LeftDrawer extends StatelessWidget {
                   ));
             },
           ),
+
+          // routing create product
           ListTile(
             leading: const Icon(Icons.post_add),
             title: const Text('Create Product'),
@@ -69,6 +73,20 @@ class LeftDrawer extends StatelessWidget {
                   ));
             },
           ),
+
+          // routing list produk
+          ListTile(
+              leading: const Icon(Icons.add_reaction_rounded),
+              title: const Text('Product List'),
+              onTap: () {
+                  // Route to product list page
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => const ProductEntryListPage()),
+                  );
+              },
+          ),
+
         ],
       ),
     );
